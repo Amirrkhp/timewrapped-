@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Wrapped Plus</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert for popups -->
+
+</head>
+<body>
+    <header>
+        <div class="logo">Time Wrapped Plus</div>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#signup">Join Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Optimize Your Project Management with Time Wrapped Plus</h1>
+        <p>Time Wrapped Plus provides AI-driven insights to help you manage your projects effectively.</p>
+        <a href="#signup" class="cta-button">Get Started</a>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <div class="feature">
+            <i class="fas fa-brain"></i>
+            <h3>AI-Powered Recommendations</h3>
+            <p>Receive smart task allocations and recommendations based on team members' skills and availability.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-plug"></i>
+            <h3>Seamless Integrations</h3>
+            <p>Integrate effortlessly with popular project management tools like Jira, Asana, Trello, and Monday.com.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-chart-line"></i>
+            <h3>Real-Time Tracking</h3>
+            <p>Monitor project progress and prevent bottlenecks with real-time updates and insights.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-cloud"></i>
+            <h3>Cloud-Based Solution</h3>
+            <p>Utilize robust cloud infrastructure for hosting and AI processing, ensuring scalability and reliability.</p>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <h2>How Time Wrapped Plus Works</h2>
+        <p>1. Connect your existing project management tools.</p>
+        <p>2. Analyze past project data to inform future tasks.</p>
+        <p>3. Get personalized recommendations to optimize team performance.</p>
+    </section>
+
+    <section id="signup" class="signup">
+        <h2>Join the Waitlist</h2>
+        <form class="signup-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="company" placeholder="Your Company" required>
+            <button type="submit">Join Now</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Time Wrapped Plus. All rights reserved.</p>
+        <p><a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+    </footer>
+    
+    <!-- JavaScript for Form Submission with SweetAlert -->
+    <script>
+        document.querySelector('.signup-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('http://localhost:3000/api/join', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    // Show SweetAlert Success Message
+                    Swal.fire({
+                        title: "🎉 Thank You!",
+                        text: "You have successfully joined the waitlist. We’ll notify you soon!",
+                        icon: "success",
+                        confirmButtonText: "Awesome!",
+                        background: "#fff",
+                        confirmButtonColor: "#28a745",
+                        backdrop: `
+                            rgba(0,0,123,0.4)
+                            center top
+                            no-repeat
+                        `
+                    });
+
+                    // Clear the form fields
+                    this.reset();
+                } else {
+                    Swal.fire({
+                        title: "❌ Oops!",
+                        text: "Something went wrong. Please try again.",
+                        icon: "error",
+                        confirmButtonText: "Retry",
+                        confirmButtonColor: "#d33"
+                    });
+                }
+            } catch (error) {
+                console.error('❌ Error submitting form:', error);
+                Swal.fire({
+                    title: "❌ Error!",
+                    text: "Submission failed. Please check your connection.",
+                    icon: "error",
+                    confirmButtonText: "Retry"
+                });
+            }
+        });
+    </script>
+</body>
+</html>
