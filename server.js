@@ -19,7 +19,8 @@ mongoose.connect(process.env.MONGO_URI, {
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    company: { type: String, required: true }
+    company: { type: String, required: true },
+    employees: { type: Number, required: true }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -38,8 +39,8 @@ app.post('/api/join', async (req, res) => {
     try {
         console.log('📥 Received form data:', req.body);
 
-        const { name, email, company } = req.body;
-        if (!name || !email || !company) {
+        const { name, email, company, employees } = req.body;
+        if (!name || !email || !company || !employees) {
             return res.status(400).json({ error: '❌ Missing required fields' });
         }
 
@@ -49,7 +50,7 @@ app.post('/api/join', async (req, res) => {
             return res.status(400).json({ error: '⚠️ Email already registered!' });
         }
 
-        const newUser = new User({ name, email, company });
+        const newUser = new User({ name, email, company, employees });
         await newUser.save();
 
         console.log('✅ User saved successfully:', newUser);
